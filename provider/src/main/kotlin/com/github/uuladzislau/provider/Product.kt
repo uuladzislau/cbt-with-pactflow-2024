@@ -1,5 +1,6 @@
 package com.github.uuladzislau.provider
 
-import java.util.UUID
+import kotlinx.serialization.Serializable
 
-data class Product(val id: UUID, val name: String)
+@Serializable
+data class Product(val id: Long, val name: String)
