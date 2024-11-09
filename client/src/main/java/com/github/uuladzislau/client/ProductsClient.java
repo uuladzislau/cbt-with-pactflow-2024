@@ -25,8 +25,9 @@ class ProductsClient {
 
     String getProducts() {
         try (HttpClient client = HttpClient.newHttpClient()) {
+            URI uri = URI.create(this.baseUrl + "/api/v1/products");
 
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8080/api/v1/products")).build();
+            HttpRequest request = HttpRequest.newBuilder(uri).build();
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
