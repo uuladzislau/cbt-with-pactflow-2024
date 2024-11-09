@@ -4,6 +4,7 @@ import com.atlassian.oai.validator.restassured.OpenApiValidationFilter
 import io.restassured.module.kotlin.extensions.Given
 import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
+import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
@@ -39,6 +40,10 @@ class ProductsApiTest {
             get("/api/v1/products/1")
         } Then {
             statusCode(200)
+            body(
+                "id", equalTo(1),
+                "name", equalTo("Product 1")
+            )
         }
     }
 
