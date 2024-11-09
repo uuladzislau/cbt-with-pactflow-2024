@@ -14,14 +14,10 @@ class DummyProductsService : ProductsService {
     }
 
     override fun getAll(): List<Product> {
-        println("DummyProductsService.getAll() is invoked")
-
         return products;
     }
 
     override fun getById(id: Long): Product? {
-        println("DummyProductsService.getById(${id}) is invoked")
-
         return products.find { it.id == id }
     }
 }
