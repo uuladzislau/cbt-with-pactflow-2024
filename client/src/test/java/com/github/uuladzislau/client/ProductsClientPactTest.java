@@ -1,6 +1,7 @@
 package com.github.uuladzislau.client;
 
 import au.com.dius.pact.consumer.MockServer;
+import au.com.dius.pact.consumer.dsl.LambdaDslJsonArray;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit.MockServerConfig;
 import au.com.dius.pact.consumer.junit5.PactConsumerTest;
@@ -96,8 +97,8 @@ class ProductsClientPactTest {
                     b.numberType("id", 1L);
                     b.stringType("name", "Product 1");
                     b.numberType("price", 200.0);
-                    b.stringType("category", "PHONES");
-                    b.array("stores", a -> {
+                    b.stringValue("category", "PHONES");
+                    b.arrayContaining("stores", a -> {
                         a.stringType("Amstelveen");
                     });
                 }).build())
