@@ -4,6 +4,7 @@ import com.atlassian.oai.validator.restassured.OpenApiValidationFilter
 import io.restassured.module.kotlin.extensions.Given
 import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
+import org.hamcrest.Matchers.contains
 import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -20,7 +21,7 @@ class ProductsApiTest {
     private val validationFilter = OpenApiValidationFilter(spec.absolutePath)
 
     @Test
-    fun `should return 200 and all products`() {
+    fun `should return 200 OK and all product summaries`() {
         Given {
             port(port)
             filter(validationFilter)
@@ -32,7 +33,7 @@ class ProductsApiTest {
     }
 
     @Test
-    fun `should return 200 and product with given id`() {
+    fun `should return 200 OK and product with given id and details`() {
         Given {
             port(port)
             filter(validationFilter)
@@ -42,13 +43,16 @@ class ProductsApiTest {
             statusCode(200)
             body(
                 "id", equalTo(1),
-                "name", equalTo("Product 1")
+                "name", equalTo("MacBook"),
+                "price", equalTo(200.0F),
+                "category", equalTo("COMPUTERS"),
+                "stores", contains("Amsterdam")
             )
         }
     }
 
     @Test
-    fun `should return 404`() {
+    fun `should return 404 Not Found`() {
         Given {
             port(port)
             filter(validationFilter)

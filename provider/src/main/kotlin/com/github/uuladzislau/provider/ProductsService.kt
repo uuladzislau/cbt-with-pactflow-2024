@@ -1,6 +1,14 @@
 package com.github.uuladzislau.provider
 
 interface ProductsService {
-    fun getAll(): List<Product>
+    /**
+     * Retrieve all products.
+     */
+    fun getAll(): List<ProductSummary>
+
+    /**
+     * Retrieve a product by its ID.
+     * @return a [Product] if exists; `null` otherwise.
+     */
     fun getById(id: Long): Product?
 }

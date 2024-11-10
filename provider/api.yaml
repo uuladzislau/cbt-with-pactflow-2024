@@ -11,7 +11,7 @@ paths:
       description: Returns a list of products with basic information
       responses:
         '200':
-          $ref: '#/components/responses/200_OK_Products'
+          $ref: '#/components/responses/200_OK_Product_Summaries'
   /api/v1/products/{id}:
     get:
       summary: Get product information by Id
@@ -34,14 +34,14 @@ components:
       schema:
         type: integer
   responses:
-    200_OK_Products:
+    200_OK_Product_Summaries:
       description: A list of products
       content:
         application/json:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/Product'
+              $ref: '#/components/schemas/ProductSummary'
     200_OK_Product:
       description: A product with given Id found
       content:
@@ -52,15 +52,61 @@ components:
       description: A product with given Id found
 
   schemas:
+    ProductSummary:
+      type: object
+      required:
+          - id
+          - name
+          - price
+      properties:
+        id:
+          $ref: '#/components/schemas/ProductId'
+        name:
+          $ref: '#/components/schemas/ProductName'
+        price:
+          $ref: '#/components/schemas/ProductPrice'
     Product:
       type: object
       required:
         - id
         - name
+        - price
+        - category
+        - stores
       properties:
         id:
-          type: integer
-          example: 1
+          $ref: '#/components/schemas/ProductId'
         name:
-          type: string
-          example: "Sample Product"
+          $ref: '#/components/schemas/ProductName'
+        price:
+          $ref: '#/components/schemas/ProductPrice'
+        category:
+          $ref: '#/components/schemas/ProductCategory'
+        stores:
+          $ref: '#/components/schemas/Stores'
+    ProductId:
+      type: integer
+      description: Unique identifier for the product
+      example: 1
+    ProductName:
+      type: string
+      description: Name of the product
+      example: MacBook Pro 2022
+    ProductPrice:
+      type: number
+      format: double
+      description: Price of the product
+      example: 200.00
+    ProductCategory:
+      type: string
+      description: Category of the product
+      enum:
+        - PHONES
+        - COMPUTERS
+        - ACCESSORIES
+      example: COMPUTERS
+    Stores:
+      type: array
+      description: List of stores where the product is available
+      items:
+        type: string

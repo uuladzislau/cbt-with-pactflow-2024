@@ -1,17 +1,14 @@
 package com.github.uuladzislau.provider
 
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/products")
 class ProductsController(val productsService: ProductsService) {
 
     @GetMapping
-    fun get(): ResponseEntity<List<Product>> {
+    fun get(): ResponseEntity<List<ProductSummary>> {
         val products = productsService.getAll()
 
         return ResponseEntity.ok(products)
