@@ -3,7 +3,6 @@ package com.github.uuladzislau.provider
 import au.com.dius.pact.provider.junit5.HttpTestTarget
 import au.com.dius.pact.provider.junit5.PactVerificationContext
 import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider
-import au.com.dius.pact.provider.junitsupport.AllowOverridePactUrl
 import au.com.dius.pact.provider.junitsupport.IgnoreMissingStateChange
 import au.com.dius.pact.provider.junitsupport.Provider
 import au.com.dius.pact.provider.junitsupport.loader.PactBroker
@@ -21,7 +20,6 @@ import org.springframework.boot.test.web.server.LocalServerPort
     providerBranch = "main",
     authentication = PactBrokerAuth(token = "\${PACT_BROKER_TOKEN}"),
 )
-@AllowOverridePactUrl
 @IgnoreMissingStateChange
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ProductsPactTest {
@@ -32,6 +30,7 @@ class ProductsPactTest {
     @BeforeEach
     fun setupTestTarget(context: PactVerificationContext) {
         context.target = HttpTestTarget("localhost", this.port)
+        System.setProperty("pact.verifier.publishResults", "true");
     }
 
     @TestTemplate
