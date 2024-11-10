@@ -13,5 +13,5 @@ docker run --rm \
   pactfoundation/pact-cli:1.3.0.10 \
   publish \
   ${PWD}/client/target/pacts \
-  --consumer-app-version $(git rev-parse --short HEAD)-$(date +%s) \
+  --consumer-app-version $(git rev-parse --short HEAD) \
   --tag-with-git-branch

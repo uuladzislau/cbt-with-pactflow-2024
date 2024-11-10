@@ -10,28 +10,19 @@ class ProductsController(val productsService: ProductsService) {
 
     @GetMapping("/api/v1/products")
     fun get(): ResponseEntity<List<Product>> {
-        println("received request /api/v1/products")
-
         val products = productsService.getAll()
-
-        println("response: 200 $products")
 
         return ResponseEntity.ok(products)
     }
 
     @GetMapping("/api/v1/products/{id}")
     fun getById(@PathVariable id: Long): ResponseEntity<Product> {
-        println("received request /api/v1/products/$id")
-
         val product = productsService.getById(id)
 
-        if (product == null) {
-            println("response: 404 Not Found")
-            return ResponseEntity.notFound().build()
+        if (product != null) {
+            return ResponseEntity.ok(product)
         }
 
-        println("response: 200 $product")
-
-        return ResponseEntity.ok(product)
+        return ResponseEntity.notFound().build()
     }
 }

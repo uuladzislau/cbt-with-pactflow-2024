@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 class DummyProductsService : ProductsService {
 
     companion object {
-        private val products = listOf<Product>(
+        private val products = listOf(
             Product(1L, "Product 1"),
             Product(2L, "Product 2"),
             Product(3L, "Product 3")
