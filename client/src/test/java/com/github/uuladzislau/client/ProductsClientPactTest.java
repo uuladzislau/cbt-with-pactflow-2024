@@ -88,7 +88,7 @@ class ProductsClientPactTest {
         return builder
                 .given("product exist")
                 .uponReceiving("a request to get product details")
-                .pathFromProviderState("/api/v1/products/${id}", "/api/v1/products/1")
+                .path("/api/v1/products/1")
                 .method("GET")
                 .willRespondWith()
                 .status(200)
