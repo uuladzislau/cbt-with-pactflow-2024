@@ -25,6 +25,8 @@ class ClientApplication {
                 .run(args);
     }
 
+    // To trigger a pipeline.
+
     @Bean
     @Profile("production")
     CommandLineRunner run(final ProductsClient client) {
