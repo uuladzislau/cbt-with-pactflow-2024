@@ -13,7 +13,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static au.com.dius.pact.consumer.dsl.LambdaDsl.newJsonArray;
+import java.util.List;
+
+import static au.com.dius.pact.consumer.dsl.LambdaDsl.newJsonArrayMinLike;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(
@@ -38,9 +40,12 @@ class ProductsClientPactTest {
     void pactTestForGetAllProducts(MockServer mockServer) {
         var products = this.productsClient.getProductSummaries();
 
-        assertThat(products)
-                .isNotNull()
-                .isNotEmpty();
+        var expected = List.of(
+                new ProductSummary(1L, "Product 1", 200.0),
+                new ProductSummary(2L, "Product 2", 100.0)
+        );
+
+        assertThat(products).isNotNull().containsAll(expected);
     }
 
     @Pact(consumer = "client-app")
@@ -52,14 +57,16 @@ class ProductsClientPactTest {
                 .method("GET")
                 .willRespondWith()
                 .status(200)
-                .body(newJsonArray(a -> {
+                .body(newJsonArrayMinLike(1, a -> {
                     a.object(o -> {
                         o.numberType("id", 1);
                         o.stringType("name", "Product 1");
+                        o.numberType("price", 200.0);
                     });
                     a.object(o -> {
                         o.numberType("id", 2);
                         o.stringType("name", "Product 2");
+                        o.numberType("price", 100.0);
                     });
                 }).build())
                 .toPact();
