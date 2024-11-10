@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 import static au.com.dius.pact.consumer.dsl.LambdaDsl.newJsonArrayMinLike;
+import static au.com.dius.pact.consumer.dsl.LambdaDsl.newJsonBody;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(
@@ -48,6 +49,16 @@ class ProductsClientPactTest {
         assertThat(products).isNotNull().containsAll(expected);
     }
 
+    @Test
+    @PactTestFor(pactMethod = "getProductById", pactVersion = PactSpecVersion.V3)
+    void pactTestForGetProductById() {
+        var product = this.productsClient.getProductDetails(1L);
+
+        var expected = new Product(1L, "Product 1", 200.0D, ProductCategory.PHONES, List.of("Amstelveen"));
+
+        assertThat(product).isNotNull().isEqualTo(expected);
+    }
+
     @Pact(consumer = "client-app")
     private RequestResponsePact getAllProducts(PactDslWithProvider builder) {
         return builder
@@ -67,6 +78,27 @@ class ProductsClientPactTest {
                         o.numberType("id", 2);
                         o.stringType("name", "Product 2");
                         o.numberType("price", 100.0);
+                    });
+                }).build())
+                .toPact();
+    }
+
+    @Pact(consumer = "client-app")
+    private RequestResponsePact getProductById(PactDslWithProvider builder) {
+        return builder
+                .given("product exist")
+                .uponReceiving("a request to get product details")
+                .pathFromProviderState("/api/v1/products/${id}", "/api/v1/products/1")
+                .method("GET")
+                .willRespondWith()
+                .status(200)
+                .body(newJsonBody(b -> {
+                    b.numberType("id", 1);
+                    b.stringType("name", "Product 1");
+                    b.numberType("price", 200.0);
+                    b.stringType("category", "PHONES");
+                    b.array("stores", a -> {
+                        a.stringValue("Amstelveen");
                     });
                 }).build())
                 .toPact();
