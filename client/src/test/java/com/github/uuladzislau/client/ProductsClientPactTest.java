@@ -97,7 +97,7 @@ class ProductsClientPactTest {
                     b.numberType("id", 1L);
                     b.stringType("name", "Product 1");
                     b.numberType("price", 200.0);
-                    b.stringValue("category", "PHONES");
+                    b.stringType("category", "PHONES");
                     b.arrayContaining("stores", a -> {
                         a.stringType("Amstelveen");
                     });
