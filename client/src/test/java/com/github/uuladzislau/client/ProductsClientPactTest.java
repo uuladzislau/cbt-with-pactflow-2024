@@ -93,7 +93,7 @@ class ProductsClientPactTest {
                 .willRespondWith()
                 .status(200)
                 .body(newJsonBody(b -> {
-                    b.numberType("id", 1);
+                    b.numberType("id", 1L);
                     b.stringType("name", "Product 1");
                     b.numberType("price", 200.0);
                     b.stringType("category", "PHONES");
