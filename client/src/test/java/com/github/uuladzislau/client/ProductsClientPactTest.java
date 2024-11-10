@@ -98,7 +98,7 @@ class ProductsClientPactTest {
                     b.numberType("price", 200.0);
                     b.stringType("category", "PHONES");
                     b.array("stores", a -> {
-                        a.stringValue("Amstelveen");
+                        a.stringType("Amstelveen");
                     });
                 }).build())
                 .toPact();
