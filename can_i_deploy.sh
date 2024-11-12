@@ -11,5 +11,5 @@ docker run --rm \
   pactfoundation/pact-cli:1.3.0.10 \
   pact-broker can-i-deploy \
   --to-environment production \
-  --pacticipant client-app \
+  --pacticipant $1 \
   --latest
